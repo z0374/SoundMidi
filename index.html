@@ -1,90 +1,99 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-	<style>
-		*{
-			box-sizing:border-box;margin:0; outline:none;padding:0;display:flex;align-items:center;justify-content:center;
-		}
-		body{width:100vw;height:100vh;border:none;}
-		#app{
-			width:51vw;padding:2.1vw;border:solid 1px black;font-weight:bold;
-			display:flex;flex-wrap:wrap;
-			background-color:gray;border-radius:3vw;
-		}
-		button{
-			width:12vw;height:12vw;margin:1vw;cursor:pointer;border:solid 1px black;font-weight:bold;
-			opacity:0.51;border-radius:12px;font-size:3vw;
-		}
-		button:hover,button:focus{opacity:1;border:none;}
-	</style>
+	<meta charset="utf-8">
+  
+  <style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    outline:none;
+    padding:0;
+    align-items:center;
+    justify-content:center;
+}
+body {
+    width:100vw;
+    height:100vh;
+    border:none;
+    display:flex;
+}
+#app {
+    width:51vw;
+    padding:2.1vw;
+    border:solid 1px black;
+    font-weight:bold;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: gray;
+    border-radius: 3vw;
+}
+button {
+    width: 12vw;
+    height: 12vw;
+    margin: 1vw;
+    cursor: pointer;
+    border: solid 1px black;
+    font-weight: bold;
+    opacity: 0.51;
+    border-radius: 12px;
+    font-size: 3vw;
+}
+button:hover, button:focus {
+    opacity: 1;
+    border: none;
+}
+</style>
 </head>
 <body>
-<section id="app">
-</section>
-	<script>
-		let app = document.getElementById('app');
-	let rsl;
-	const cor = ['#ff6666', '#00ccff', '#ff00ff', '#ff9900', '#ff0099', '#ccff33', '#ffff00', '#ff33cc', '#33ff33', '#ff66ff', '#ffcc00', '#66ccff', '#ff0000', '#ff8000', '#ffff00', '#00cc00', '#00ffff', '#0000ff', '#cc00cc', '#ff00ff', '#999999', '#cccccc', '#ffffff', '#ff0000', '#ff9933', '#ffff66', '#ff99cc', '#66ccff', '#99ff33', '#ff9999', '#ffcc00'];
-	const msc= [{
-		nm:'Pom',
-		ar:'midi/pom.wav',
-		tc:'7'
-	
-	},{
-		nm:'clap',
-		ar:'midi/clap.wav',
-		tc:'8'
-	
-	},{
-		nm:'Tim',
-		ar:'midi/tim.wav',
-		tc:'9'
-	
-	},{
-		nm:'Puff',
-		ar:'midi/puff.wav',
-		tc:'4'
-	
-	},{
-		nm:'Splash',
-		ar:'midi/splash.wav',
-		tc:'5'
-	
-	},{
-		nm:'Toim',
-		ar:'midi/toim.wav',
-		tc:'6'
-	
-	},{
-		nm:'Psh',
-		ar:'midi/psh.wav',
-		tc:'1'
-	
-	},{
-		nm:'Tic',
-		ar:'midi/tic.wav',
-		tc:'2'
-	
-	},{
-		nm:'Tom',
-		ar:'midi/tom.wav',
-		tc:'3'
-	}
-	]
-	
-	//Gera os botões do MIDI.
-	for(let i=0;i<msc.length;i++){app.innerHTML += `<button id='b${i}' onclick='inst${i}.play()' style='background-color:${cor[i]}'>${msc[i].nm}</button>
-		<audio src='${msc[i].ar}' id='inst${i}'></audio>`;
-	
-		document.addEventListener('keydown', function(event) {
-			if (event.code === 'Numpad'+ msc[i].tc) {
-			document.getElementById(`inst${i}`).play();
-			document.getElementById(`b${i}`).focus();
-			}		
-		});
-	   
-	}
+<section id="app"></section>
+<script>
+let app = document.getElementById('app');
+const cor = ['#ff6666', '#00ccff', '#ff00ff', '#ff9900', '#ff0099', '#ccff33', '#ffff00', '#ff33cc', '#33ff33', '#ff66ff', '#ffcc00', '#66ccff', '#ff0000', '#ff8000', '#ffff00', '#00cc00', '#00ffff', '#0000ff', '#cc00cc', '#ff00ff', '#999999', '#cccccc', '#ffffff', '#ff0000', '#ff9933', '#ffff66', '#ff99cc', '#66ccff', '#99ff33', '#ff9999', '#ffcc00'];
+const msc = [
+    { nm: 'Pom', ar: 'https://archive.org/download/toim_20240728/Pom.wav', tc: '7' },
+    { nm: 'Clap', ar: 'https://archive.org/download/toim_20240728/Clap.wav', tc: '8' },
+    { nm: 'Tim', ar: 'https://archive.org/download/toim_20240728/Tim.wav', tc: '9' },
+    { nm: 'Puff', ar: 'https://archive.org/download/toim_20240728/Puff.wav', tc: '4' },
+    { nm: 'Splash', ar: 'https://archive.org/download/toim_20240728/splash.wav', tc: '5' },
+    { nm: 'Toim', ar: 'https://archive.org/download/toim_20240728/Toim.wav', tc: '6' },
+    { nm: 'Psh', ar: 'https://archive.org/download/toim_20240728/Psh.wav', tc: '1' },
+    { nm: 'Tic', ar: 'https://archive.org/download/toim_20240728/Tic.wav', tc: '2' },
+    { nm: 'Tom', ar: 'https://archive.org/download/toim_20240728/Tom.wav', tc: '3' }
+];
+
+// Gera os botões do MIDI
+for (let i = 0; i < msc.length; i++) {
+    app.innerHTML += `<button id='b${i}' style='background-color:${cor[i]}'>${msc[i].nm}</button>
+                      <audio src='${msc[i].ar}' id='inst${i}'></audio>`;
+}
+
+// Adiciona eventos de clique e teclado fora do loop para evitar múltiplas associações
+for (let i = 0; i < msc.length; i++) {
+    let button = document.getElementById(`b${i}`);
+    let audio = document.getElementById(`inst${i}`);
+    
+    button.addEventListener('click', () => {
+            msc.forEach((_, index) => {
+            let otherAudio = document.getElementById(`inst${index}`);
+            otherAudio.pause();
+            otherAudio.currentTime = 0;
+        });
+        audio.play();
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.code === 'Numpad' + msc[i].tc) {
+            msc.forEach((_, index) => {
+            let otherAudio = document.getElementById(`inst${index}`);
+            otherAudio.pause();
+            otherAudio.currentTime = 0;
+        });
+            audio.play();
+            button.focus();
+        }
+    });
+}
 </script>
 </body>
 </html>
